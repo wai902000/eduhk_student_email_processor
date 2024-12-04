@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduHK 學生Email處理器</title>
+    <style>
+        /* 基本樣式 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #007bff;
+        }
+
+        .description {
+            text-align: center;
+            margin: 10px 20px;
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        /* 文本框容器 */
+        .textarea-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        textarea {
+            width: 80%;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            outline: none;
+            resize: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        textarea:focus {
+            border-color: #0056b3;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 按鈕樣式 */
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        /* 結果區容器 */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            margin: 30px auto;
+            gap: 20px;
+        }
+
+        .result {
+            flex: 1;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-height: 400px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .result h2 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .result p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* 複製按鈕樣式 */
+        .copy-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .copy-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* 響應式設計：窄屏時結果區垂直排列 */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .result {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #555;
+            padding: 10px 0;
+            background: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>EduHK 學生Email處理器</h1>
+    <p class="description">
+        學生證號碼包含 8 位數字，而 Email 中僅包含前 7 位數字時，本程式的結果僅供參考，可能與完整的學生證號碼不完全一致。
+    </p>
+    <p>請在下方輸入您的 EMAIL 地址，每行一個：</p>
+    <div class="textarea-container">
+        <textarea id="emailInput" placeholder="例如：s1234567@eduhk.hk"></textarea>
+    </div>
+    <button onclick="processEmails()">處理Email</button>
+
+    <div class="container">
+        <div class="result" id="resultLeft">
+            <h2>只有數字結果</h2>
+            <button class="copy-btn" onclick="copyToClipboard('resultLeft')">複製</button>
+        </div>
+        <div class="result" id="resultRight">
+            <h2>s加數字結果</h2>
+            <button class="copy-btn" onclick="copyToClipboard('resultRight')">複製</button>
+        </div>
+    </div>
+
+    <footer>Developer: Matt Li<br>
+        Update: 4 Dec 2024</footer>
+
+    <script>
+        const _0x31a6ed = _0x5633; (function (_0x1d8d2d, _0x2cac5f) { const _0x1be5cc = _0x5633, _0x40ea83 = _0x1d8d2d(); while (!![]) { try { const _0x368429 = parseInt(_0x1be5cc(0x146)) / 0x1 * (-parseInt(_0x1be5cc(0x153)) / 0x2) + parseInt(_0x1be5cc(0x137)) / 0x3 * (-parseInt(_0x1be5cc(0x13a)) / 0x4) + -parseInt(_0x1be5cc(0x13e)) / 0x5 * (parseInt(_0x1be5cc(0x138)) / 0x6) + parseInt(_0x1be5cc(0x132)) / 0x7 + -parseInt(_0x1be5cc(0x14e)) / 0x8 * (parseInt(_0x1be5cc(0x155)) / 0x9) + parseInt(_0x1be5cc(0x151)) / 0xa * (-parseInt(_0x1be5cc(0x150)) / 0xb) + parseInt(_0x1be5cc(0x12c)) / 0xc * (parseInt(_0x1be5cc(0x14f)) / 0xd); if (_0x368429 === _0x2cac5f) break; else _0x40ea83['push'](_0x40ea83['shift']()); } catch (_0x3ef1d0) { _0x40ea83['push'](_0x40ea83['shift']()); } } }(_0x3fb5, 0xdff6a), document[_0x31a6ed(0x145)](_0x31a6ed(0x14b), function (_0x52ceb9) { const _0x2fe51b = _0x31a6ed; _0x52ceb9[_0x2fe51b(0x135)](), alert(_0x2fe51b(0x141)); }), document[_0x31a6ed(0x145)](_0x31a6ed(0x149), function (_0x51a22e) { const _0x3dc232 = _0x31a6ed; (_0x51a22e[_0x3dc232(0x152)] && (_0x51a22e[_0x3dc232(0x14d)] === 'c' || _0x51a22e[_0x3dc232(0x14d)] === 'x' || _0x51a22e['key'] === 'u') || _0x51a22e[_0x3dc232(0x14a)] && (_0x51a22e[_0x3dc232(0x14d)] === 'c' || _0x51a22e[_0x3dc232(0x14d)] === 'x') || _0x51a22e[_0x3dc232(0x14d)] === _0x3dc232(0x139) || _0x51a22e[_0x3dc232(0x152)] && _0x51a22e['shiftKey'] && _0x51a22e[_0x3dc232(0x14d)] === 'I') && (_0x51a22e[_0x3dc232(0x135)](), alert(_0x3dc232(0x143))); })); function processEmails() { const _0x5c68e8 = _0x31a6ed, _0x309deb = document[_0x5c68e8(0x13c)]('emailInput')[_0x5c68e8(0x136)]['trim'](), _0x242a01 = _0x309deb[_0x5c68e8(0x142)]('\x0a')[_0x5c68e8(0x13f)](_0x4f1059 => _0x4f1059[_0x5c68e8(0x154)]() !== ''); let _0x29c87f = '', _0x178c81 = ''; _0x242a01[_0x5c68e8(0x144)](_0xc53806 => { const _0x274bb1 = _0x5c68e8, _0x28d0b8 = _0xc53806['split']('@'); if (_0x28d0b8['length'] > 0x1 && _0x28d0b8[0x0]['startsWith']('s')) { const _0x1ebb4e = _0x28d0b8[0x0][_0x274bb1(0x13d)](0x1), _0x56a2fd = _0x28d0b8[0x0]; _0x29c87f += _0x274bb1(0x12d) + _0x1ebb4e + _0x274bb1(0x12e), _0x178c81 += _0x274bb1(0x12d) + _0x56a2fd + '</p>'; } }), document[_0x5c68e8(0x13c)](_0x5c68e8(0x13b))[_0x5c68e8(0x12f)] = _0x5c68e8(0x134) + (_0x29c87f || _0x5c68e8(0x133)) + '\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22copy-btn\x22\x20onclick=\x22copyToClipboard(\x27resultLeft\x27)\x22>複製</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20', document[_0x5c68e8(0x13c)](_0x5c68e8(0x130))['innerHTML'] = _0x5c68e8(0x14c) + (_0x178c81 || _0x5c68e8(0x133)) + '\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20class=\x22copy-btn\x22\x20onclick=\x22copyToClipboard(\x27resultRight\x27)\x22>複製</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'; } function _0x5633(_0x430e31, _0x395489) { const _0x3fb504 = _0x3fb5(); return _0x5633 = function (_0x56331e, _0xc86eb5) { _0x56331e = _0x56331e - 0x12c; let _0x4ead31 = _0x3fb504[_0x56331e]; return _0x4ead31; }, _0x5633(_0x430e31, _0x395489); } function _0x3fb5() { const _0x58528b = ['getElementById', 'substring', '5buqZTP', 'filter', 'querySelectorAll', '此網站禁止右鍵操作！', 'split', '此功能已被禁用！', 'forEach', 'addEventListener', '2Ymryqn', 'catch', 'clipboard', 'keydown', 'metaKey', 'contextmenu', '\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h2>s加數字結果</h2>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20', 'key', '8QQqXsT', '26cFbSIz', '25817NBMafI', '1910DtdiZA', 'ctrlKey', '187134eMFgHg', 'trim', '5782653gcobBX', 'textContent', '14786244ARHhcC', '<p>', '</p>', 'innerHTML', 'resultRight', 'from', '11308143Dldozi', '<p>未檢測到有效的學號</p>', '\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<h2>只有數字結果</h2>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20', 'preventDefault', 'value', '894nlAqok', '6754998uCtLRN', 'F12', '10184jcghDd', 'resultLeft']; _0x3fb5 = function () { return _0x58528b; }; return _0x3fb5(); } function copyToClipboard(_0x410d50) { const _0x3a354d = _0x31a6ed, _0x472b13 = document[_0x3a354d(0x13c)](_0x410d50), _0x57294f = _0x472b13[_0x3a354d(0x140)]('p'), _0xb00fd9 = Array[_0x3a354d(0x131)](_0x57294f)['map'](_0x38d9d6 => _0x38d9d6[_0x3a354d(0x156)])['join']('\x0a'); navigator[_0x3a354d(0x148)]['writeText'](_0xb00fd9)['then'](() => { alert('內容已成功複製到剪貼板！'); })[_0x3a354d(0x147)](_0x3f05c3 => { alert('複製失敗，請重試！'); }); }
+    </script>
+</body>
+
+</html>
